@@ -68,6 +68,7 @@ import helium314.keyboard.latin.settings.Settings;
 import helium314.keyboard.latin.settings.SettingsValues;
 import helium314.keyboard.latin.suggestions.SuggestionStripView;
 import helium314.keyboard.latin.suggestions.SuggestionStripViewAccessor;
+import helium314.keyboard.latin.suggestions.ContextBarManager;
 import helium314.keyboard.latin.touchinputconsumer.GestureConsumer;
 import helium314.keyboard.latin.utils.ColorUtilKt;
 import helium314.keyboard.latin.utils.FloatingKeyboardUtils;
@@ -140,6 +141,7 @@ public class LatinIME extends InputMethodService implements
     private View mInputView;
     private InsetsOutlineProvider mInsetsUpdater;
     private SuggestionStripView mSuggestionStripView;
+    public ContextBarManager mContextBarManager;
 
     private RichInputMethodManager mRichImm;
     final KeyboardSwitcher mKeyboardSwitcher;
@@ -692,6 +694,9 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onDestroy() {
+        if (mContextBarManager != null) {
+            mContextBarManager.onDestroy();
+        }
         mClipboardHistoryManager.onDestroy();
         mDictionaryFacilitator.closeDictionaries();
         mSettings.onDestroy();
@@ -762,6 +767,14 @@ public class LatinIME extends InputMethodService implements
         mInsetsUpdater = ViewOutlineProviderUtilsKt.setInsetsOutlineProvider(view);
         KtxKt.updateSoftInputWindowLayoutParameters(this, mInputView);
         updateSuggestionStripView(view);
+        if (mContextBarManager == null) {
+            mContextBarManager = new ContextBarManager(this);
+        }
+        mContextBarManager.init(view);
+    }
+
+    public View getInputView() {
+        return mInputView;
     }
 
     public void updateSuggestionStripView(View view) {
@@ -1200,6 +1213,9 @@ public class LatinIME extends InputMethodService implements
         }
         final int stripHeight = mKeyboardSwitcher.isShowingStripContainer() ? mKeyboardSwitcher.getStripContainer().getHeight() : 0;
         int visibleTopY = inputHeight - visibleKeyboardView.getHeight() - stripHeight;
+        if (mContextBarManager != null && mContextBarManager.isBarShowing()) {
+            visibleTopY -= mContextBarManager.getBarHeight();
+        }
         if (Settings.getValues().mIsFloatingKeyboard)
             visibleTopY = getResources().getDisplayMetrics().heightPixels;
 
@@ -1230,6 +1246,16 @@ public class LatinIME extends InputMethodService implements
         outInsets.contentTopInsets = visibleTopY;
         outInsets.visibleTopInsets = visibleTopY;
         mInsetsUpdater.setInsets(outInsets);
+    }
+
+    public void requestInsetsUpdate() {
+        if (mInputView != null) {
+            mInputView.post(() -> {
+                if (mInputView != null) {
+                    mInputView.requestApplyInsets();
+                }
+            });
+        }
     }
 
     public void startShowingInputView(final boolean needsToLoadKeyboard) {

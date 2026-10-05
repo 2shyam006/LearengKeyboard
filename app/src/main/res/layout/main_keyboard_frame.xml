@@ -13,6 +13,10 @@
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/context_bar_root"
+        layout="@layout/context_bar_layout" />
+
+    <include
         android:id="@+id/strip_container"
         layout="@layout/strip_container" />
 

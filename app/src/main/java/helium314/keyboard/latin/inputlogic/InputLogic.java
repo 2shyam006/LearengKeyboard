@@ -527,8 +527,8 @@ public final class InputLogic {
         }
         mConnection.endBatchEdit();
         final CharSequence currentSentence = mConnection.getTextBeforeCursor(1000, 0);
-        if (currentSentence != null) {
-            ContextWordMatcher.checkAndLog(currentSentence.toString(), mLatinIME);
+        if (currentSentence != null && mLatinIME != null && mLatinIME.mContextBarManager != null) {
+            mLatinIME.mContextBarManager.onSentenceUpdated(currentSentence.toString());
         }
         return inputTransaction;
     }
@@ -1777,8 +1777,8 @@ public final class InputLogic {
             Log.d(TAG, "performUpdateSuggestionStripSync() : " + runTimeMillis + " ms to finish");
         }
         final CharSequence currentSentence = mConnection.getTextBeforeCursor(1000, 0);
-        if (currentSentence != null) {
-            ContextWordMatcher.checkAndLog(currentSentence.toString(), mLatinIME);
+        if (currentSentence != null && mLatinIME.mContextBarManager != null) {
+            mLatinIME.mContextBarManager.onSentenceUpdated(currentSentence.toString());
         }
     }
 
