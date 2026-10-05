@@ -6,6 +6,7 @@ plugins {
     kotlin("android")
     kotlin("plugin.serialization") version "2.3.20"
     kotlin("plugin.compose") version "2.3.20"
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -130,6 +131,9 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.autofill:autofill:1.3.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // kotlin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")

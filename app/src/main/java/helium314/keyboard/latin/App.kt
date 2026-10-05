@@ -45,6 +45,7 @@ class App : Application() {
         transferOldPinnedClips(this) // todo: remove in a few months, maybe end 2026
         app = this
         Defaults.initDynamicDefaults(this)
+        helium314.keyboard.latin.database.ContextWordsLoader.load(this)
     }
 
     companion object {
