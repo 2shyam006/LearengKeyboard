@@ -51,6 +51,7 @@ import helium314.keyboard.latin.common.InputPointers;
 import helium314.keyboard.latin.common.StringUtils;
 import helium314.keyboard.latin.common.StringUtilsKt;
 import helium314.keyboard.latin.common.SuggestionSpanUtilsKt;
+import helium314.keyboard.latin.database.ContextWordMatcher;
 import helium314.keyboard.latin.define.DebugFlags;
 import helium314.keyboard.latin.settings.Settings;
 import helium314.keyboard.latin.settings.SettingsValues;
@@ -525,6 +526,10 @@ public final class InputLogic {
             mEnteredText = null;
         }
         mConnection.endBatchEdit();
+        final CharSequence currentSentence = mConnection.getTextBeforeCursor(1000, 0);
+        if (currentSentence != null) {
+            ContextWordMatcher.checkAndLog(currentSentence.toString(), mLatinIME);
+        }
         return inputTransaction;
     }
 
@@ -1770,6 +1775,10 @@ public final class InputLogic {
         if (DebugFlags.DEBUG_ENABLED) {
             long runTimeMillis = SystemClock.elapsedRealtime() - startTimeMillis;
             Log.d(TAG, "performUpdateSuggestionStripSync() : " + runTimeMillis + " ms to finish");
+        }
+        final CharSequence currentSentence = mConnection.getTextBeforeCursor(1000, 0);
+        if (currentSentence != null) {
+            ContextWordMatcher.checkAndLog(currentSentence.toString(), mLatinIME);
         }
     }
 
