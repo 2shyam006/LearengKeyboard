@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#D40000"
+    android:background="#E1BBB4"
     android:visibility="gone">
 
     <!-- Main Bar Row -->
@@ -36,7 +36,7 @@
                 android:id="@+id/context_bar_line1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
+                android:textColor="#333333"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:lineSpacingExtra="2dp" />
@@ -46,7 +46,7 @@
                 android:id="@+id/context_bar_line2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
+                android:textColor="#333333"
                 android:textSize="12sp"
                 android:maxLines="2"
                 android:ellipsize="end"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        android:background="#B80000"
+        android:background="#E1BBB4"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="4dp"
@@ -84,7 +84,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E57373"
+            android:background="#B58E87"
             android:layout_marginBottom="6dp" />
 
         <!-- Row 1: Read aloud -->
@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Read aloud"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
             android:textSize="14sp"
             android:textStyle="bold"
             android:paddingTop="8dp"
@@ -108,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Translate"
-            android:textColor="#FFFFFF"
+            android:textColor="#333333"
             android:textSize="14sp"
             android:textStyle="bold"
             android:paddingTop="8dp"

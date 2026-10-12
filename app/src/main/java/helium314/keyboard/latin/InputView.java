@@ -73,6 +73,16 @@ public final class InputView extends FrameLayout {
         final int x = (int)me.getX(index) + rect.left;
         final int y = (int)me.getY(index) + rect.top;
 
+        final View contextBarRoot = findViewById(R.id.context_bar_root);
+        if (contextBarRoot != null && contextBarRoot.getVisibility() == View.VISIBLE) {
+            final Rect barRect = new Rect();
+            contextBarRoot.getGlobalVisibleRect(barRect);
+            if (barRect.contains(x, y)) {
+                mActiveForwarder = null;
+                return false;
+            }
+        }
+
         // The touch events that hit the top padding of keyboard should be forwarded to
         // {@link SuggestionStripView}.
         if (mKeyboardTopPaddingForwarder.onInterceptTouchEvent(x, y, me)) {

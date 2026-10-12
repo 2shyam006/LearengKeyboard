@@ -6,7 +6,7 @@ import android.animation.AnimatorListenerAdapter
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.view.ViewAnimationUtils
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import helium314.keyboard.latin.LatinIME
@@ -210,7 +210,6 @@ class ContextBarManager(private val latinIME: LatinIME) {
 
         if (show) {
             root.visibility = View.VISIBLE
-            root.bringToFront()
             if (root.width > 0 && root.height > 0) {
                 startCircularReveal(root, true)
             } else {
@@ -249,13 +248,13 @@ class ContextBarManager(private val latinIME: LatinIME) {
 
         val cx = height / 2
         val cy = height / 2
-        val finalRadius = Math.hypot(width.toDouble(), height.toDouble()).toFloat()
+        val finalRadius = kotlin.math.hypot(width.toFloat(), height.toFloat())
 
         if (show) {
             try {
                 val anim = ViewAnimationUtils.createCircularReveal(root, cx, cy, 0f, finalRadius)
-                anim.duration = 600
-                anim.interpolator = AccelerateDecelerateInterpolator()
+                anim.duration = 500
+                anim.interpolator = DecelerateInterpolator()
                 anim.start()
             } catch (e: Exception) {
                 Log.e(TAG, "Error starting circular reveal show", e)
@@ -263,8 +262,8 @@ class ContextBarManager(private val latinIME: LatinIME) {
         } else {
             try {
                 val anim = ViewAnimationUtils.createCircularReveal(root, cx, cy, finalRadius, 0f)
-                anim.duration = 600
-                anim.interpolator = AccelerateDecelerateInterpolator()
+                anim.duration = 500
+                anim.interpolator = DecelerateInterpolator()
                 anim.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         root.visibility = View.GONE
@@ -272,7 +271,7 @@ class ContextBarManager(private val latinIME: LatinIME) {
                     }
                 })
                 anim.start()
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 root.visibility = View.GONE
                 latinIME.requestInsetsUpdate()
             }
@@ -282,6 +281,8 @@ class ContextBarManager(private val latinIME: LatinIME) {
     fun isBarShowing(): Boolean {
         return isBarShowing && (rootView?.visibility == View.VISIBLE)
     }
+
+    fun getRootView(): View? = getOrInitRoot()
 
     fun getBarHeight(): Int {
         if (!isBarShowing()) return 0
