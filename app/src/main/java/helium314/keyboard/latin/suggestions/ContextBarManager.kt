@@ -253,7 +253,7 @@ class ContextBarManager(private val latinIME: LatinIME) {
         if (show) {
             try {
                 val anim = ViewAnimationUtils.createCircularReveal(root, cx, cy, 0f, finalRadius)
-                anim.duration = 500
+                anim.duration = 1500
                 anim.interpolator = DecelerateInterpolator()
                 anim.start()
             } catch (e: Exception) {
